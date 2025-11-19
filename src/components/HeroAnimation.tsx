@@ -15,6 +15,7 @@ export default function HeroAnimation() {
         let animationFrameId: number
         let time = 0
         let mouse = { x: -1000, y: -1000 }
+        let isMobile = false
 
         // Brand color #00C49A -> RGB(0, 196, 154)
         const brandColor = { r: 0, g: 196, b: 154 }
@@ -25,6 +26,8 @@ export default function HeroAnimation() {
                 canvas.width = parent.clientWidth
                 canvas.height = parent.clientHeight
             }
+            // Detect mobile based on screen width
+            isMobile = window.innerWidth < 768
         }
 
         const drawGlitchRect = (x: number, y: number, w: number, h: number, intensity: number) => {
@@ -96,32 +99,47 @@ export default function HeroAnimation() {
                 }
             }
 
-            // 2. Mouse Interaction Glitch (Intense but localized)
-            const glitchRadius = 300
-            const blocks = 15
+            if (isMobile) {
+                // Mobile: Simple ambient glitches
+                // Just show random glitches across the screen
+                const mobileBlocks = 8
+                for (let i = 0; i < mobileBlocks; i++) {
+                    if (Math.random() > 0.7) {
+                        const x = Math.random() * canvas.width
+                        const y = Math.random() * canvas.height
+                        const w = Math.random() * 100 + 20
+                        const h = Math.random() * 20 + 5
+                        drawGlitchRect(x, y, w, h, 0.6)
+                    }
+                }
+            } else {
+                // Desktop: Mouse Interaction Glitch (Intense but localized)
+                const glitchRadius = 300
+                const blocks = 15
 
-            if (mouse.x > -100) {
-                for (let i = 0; i < blocks; i++) {
-                    const angle = Math.random() * Math.PI * 2
-                    const dist = Math.random() * glitchRadius
-                    const x = mouse.x + Math.cos(angle) * dist
-                    const y = mouse.y + Math.sin(angle) * dist
+                if (mouse.x > -100) {
+                    for (let i = 0; i < blocks; i++) {
+                        const angle = Math.random() * Math.PI * 2
+                        const dist = Math.random() * glitchRadius
+                        const x = mouse.x + Math.cos(angle) * dist
+                        const y = mouse.y + Math.sin(angle) * dist
 
-                    // Sharp blocks
-                    const w = Math.random() * 100 + 10
-                    const h = Math.random() * 30 + 2
+                        // Sharp blocks
+                        const w = Math.random() * 100 + 10
+                        const h = Math.random() * 30 + 2
 
-                    const distToMouse = Math.sqrt(Math.pow(x - mouse.x, 2) + Math.pow(y - mouse.y, 2))
-                    const intensity = Math.max(0, 1 - distToMouse / glitchRadius)
+                        const distToMouse = Math.sqrt(Math.pow(x - mouse.x, 2) + Math.pow(y - mouse.y, 2))
+                        const intensity = Math.max(0, 1 - distToMouse / glitchRadius)
 
-                    // Draw if close enough or random chance
-                    if (intensity > 0.15 || Math.random() > 0.98) {
-                        drawGlitchRect(x - w / 2, y - h / 2, w, h, intensity)
+                        // Draw if close enough or random chance
+                        if (intensity > 0.15 || Math.random() > 0.98) {
+                            drawGlitchRect(x - w / 2, y - h / 2, w, h, intensity)
 
-                        // Occasional thin vertical line (Brand color)
-                        if (Math.random() > 0.85) {
-                            ctx.fillStyle = `rgba(${brandColor.r}, ${brandColor.g}, ${brandColor.b}, 0.3)`
-                            ctx.fillRect(x, 0, 1, canvas.height)
+                            // Occasional thin vertical line (Brand color)
+                            if (Math.random() > 0.85) {
+                                ctx.fillStyle = `rgba(${brandColor.r}, ${brandColor.g}, ${brandColor.b}, 0.3)`
+                                ctx.fillRect(x, 0, 1, canvas.height)
+                            }
                         }
                     }
                 }
