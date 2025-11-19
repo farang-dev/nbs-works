@@ -1,3 +1,4 @@
+import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { MotionDiv } from '@/components/ui/MotionDiv'
 
@@ -31,46 +32,50 @@ export default function AboutPage() {
     <main>
       {/* Hero Section */}
       <Section className="pt-24 sm:pt-32">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <MotionDiv
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
-            <h1 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl md:text-6xl">
-              Usefulness is everything
-            </h1>
-            <p className="mt-6 text-lg text-secondary-text">
-              私たちは、本質的なデジタル体験を追求します。
-              <br />
-              役に立つことは、美しい。それが私たちの信念です。
-            </p>
-          </MotionDiv>
-        </div>
+        <Container>
+          <div className="max-w-4xl mx-auto text-center">
+            <MotionDiv
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
+              <h1 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl md:text-6xl">
+                Usefulness is everything
+              </h1>
+              <p className="mt-6 text-lg text-secondary-text">
+                私たちは、本質的なデジタル体験を追求します。
+                <br />
+                役に立つことは、美しい。それが私たちの信念です。
+              </p>
+            </MotionDiv>
+          </div>
+        </Container>
       </Section>
 
       {/* Content Section */}
       <Section className="py-20 sm:py-28">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="space-y-16">
-            {contentSections.map((point, index) => (
-              <MotionDiv
-                key={point.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <h2 className="text-2xl font-semibold tracking-tight text-primary-text sm:text-3xl">
-                  {point.title}
-                </h2>
-                <p className="mt-4 text-secondary-text leading-relaxed">
-                  {point.content}
-                </p>
-              </MotionDiv>
-            ))}
+        <Container>
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-16">
+              {contentSections.map((point, index) => (
+                <MotionDiv
+                  key={point.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <h2 className="text-2xl font-semibold tracking-tight text-primary-text sm:text-3xl">
+                    {point.title}
+                  </h2>
+                  <p className="mt-4 text-secondary-text leading-relaxed">
+                    {point.content}
+                  </p>
+                </MotionDiv>
+              ))}
+            </div>
           </div>
-        </div>
+        </Container>
       </Section>
 
       {/* Closing Section */}

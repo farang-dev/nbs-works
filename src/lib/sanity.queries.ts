@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity'
 
 export const postsQuery = groq`*[_type=="post"]|order(publishedAt desc){
-  title, "slug": slug.current, excerpt, publishedAt,
+  _id, title, "slug": slug.current, excerpt, publishedAt,
   "author": author-> {name, "slug": slug.current},
   "tags": tags[]-> {title, "slug": slug.current},
   "mainImage": mainImage

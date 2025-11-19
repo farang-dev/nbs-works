@@ -80,177 +80,194 @@ const frameworkSteps = [
 
 const marqueeText = 'Usefulness is Everything   '.repeat(10)
 
+import HeroAnimation from '@/components/HeroAnimation'
+
+// ... existing imports ...
+
+import Container from '@/components/ui/Container'
+
+// ... existing imports ...
+
 export default async function Home() {
   return (
     <main>
       {/* Hero Section */}
-      <Section className="bg-background pt-24 pb-16 sm:pt-32 sm:pb-24">
-        <MotionDiv
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-          className="text-center px-4"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter text-primary-text mb-6">
-            Web UX and Brand Design in AI Era
-          </h1>
-          <p className="text-lg md:text-xl text-secondary-text max-w-3xl mx-auto mb-10">
-            AI時代のウェブ体験とブランドデザインを再定義します。データと感性を融合させ、心に残るブランドを構築し、ビジネスの成長を加速させます。
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/contact"
-              className="bg-accent text-white px-8 py-3 rounded-md font-semibold text-lg hover:bg-accent/90 transition-all duration-300 shadow-lg"
-            >
-              まずは相談する
-            </Link>
-            <Link
-              href="/services"
-              className="border-2 border-neutral-border text-primary-text px-8 py-3 rounded-md font-semibold text-lg hover:bg-white/5 hover:border-neutral-border/80 transition-all duration-300"
-            >
-              サービスを見る
-            </Link>
-          </div>
-        </MotionDiv>
+      <Section className="bg-background pt-32 pb-20 sm:pt-40 sm:pb-32 relative overflow-hidden">
+        <HeroAnimation />
+        <Container className="relative z-10">
+          <MotionDiv
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+            className="text-center"
+          >
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-primary-text mb-8 leading-tight">
+              Web UX and Brand Design <br className="hidden md:block" /> in AI Era
+            </h1>
+            <p className="text-lg md:text-xl text-secondary-text max-w-3xl mx-auto mb-12 leading-relaxed">
+              AI時代のウェブ体験とブランドデザインを再定義します。データと感性を融合させ、心に残るブランドを構築し、ビジネスの成長を加速させます。
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link
+                href="/contact"
+                className="bg-accent text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent/90 transition-all duration-300 shadow-lg hover:shadow-accent/25 hover:-translate-y-1"
+              >
+                まずは相談する
+              </Link>
+              <Link
+                href="/services"
+                className="border border-neutral-border text-primary-text px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/5 hover:border-primary-text transition-all duration-300"
+              >
+                サービスを見る
+              </Link>
+            </div>
+          </MotionDiv>
+        </Container>
       </Section>
 
       {/* 4 Domains Section */}
-      <Section id="services" className="py-16 sm:py-24">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
-          {services.map((service, index) => (
-            <MotionDiv
-              key={service.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: index * 0.15, ease: 'easeOut' }}
-              className="bg-white/5 rounded-2xl border border-neutral-border p-8 flex flex-col group hover:border-accent/50 transition-colors"
-            >
-              <div className="flex-shrink-0">
-                <service.icon className="h-8 w-8 text-accent mb-4" />
-                <h3 className="text-xl font-semibold text-primary-text mb-3">
-                  {service.name}
-                </h3>
-              </div>
-              <p className="text-secondary-text mb-6 flex-grow">
-                {service.description}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {service.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs font-medium text-secondary-text bg-white/5 px-2 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <Link
-                href={service.href}
-                className="text-accent font-semibold hover:text-accent/90 transition-colors inline-flex items-center"
+      <Section id="services">
+        <Container>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {services.map((service, index) => (
+              <MotionDiv
+                key={service.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: 'easeOut' }}
+                className="bg-white/5 rounded-2xl border border-neutral-border p-8 flex flex-col group hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300"
               >
-                Learn More
-                <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </MotionDiv>
-          ))}
-        </div>
+                <div className="flex-shrink-0">
+                  <service.icon className="h-10 w-10 text-accent mb-6" />
+                  <h3 className="text-xl font-bold text-primary-text mb-4">
+                    {service.name}
+                  </h3>
+                </div>
+                <p className="text-secondary-text mb-8 flex-grow leading-relaxed">
+                  {service.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {service.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs font-medium text-secondary-text bg-neutral-100 dark:bg-white/10 px-3 py-1 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  href={service.href}
+                  className="text-accent font-semibold hover:text-accent/80 transition-colors inline-flex items-center mt-auto"
+                >
+                  詳しく見る
+                  <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </MotionDiv>
+            ))}
+          </div>
+        </Container>
       </Section>
 
       {/* Philosophy Section */}
-      <Section className="py-16 sm:py-24">
-        <MotionDiv
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-16 px-4"
-        >
-          <h2 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl">
-            Our Philosophy
-          </h2>
-          <p className="mt-4 text-lg text-secondary-text max-w-3xl mx-auto">
-            「それは、本当に役に立つのか？」すべてのプロジェクトは、この問いから始まります。私たちは、ただ美しいだけのデザインや、技術的に高度なだけのプロダクトには価値がないと考えます。
-          </p>
-        </MotionDiv>
-        <div className="grid md:grid-cols-3 gap-12 text-left px-4">
-          {philosophyItems.map((item, index) => (
-            <MotionDiv
-              key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: 'easeOut',
-              }}
-            >
-              <h3 className="text-xl font-semibold text-primary-text mb-3">
-                {item.title}
-              </h3>
-              <p className="text-secondary-text">{item.text}</p>
-            </MotionDiv>
-          ))}
-        </div>
-        <div className="text-center mt-16">
-          <Link
-            href="/about"
-            className="text-accent font-semibold hover:text-accent/90 transition-colors inline-flex items-center group"
+      <Section>
+        <Container>
+          <MotionDiv
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="text-center mb-20"
           >
-            私たちの信念について
-            <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+            <h2 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl mb-6">
+              Our Philosophy
+            </h2>
+            <p className="text-lg text-secondary-text max-w-3xl mx-auto leading-relaxed">
+              「それは、本当に役に立つのか？」すべてのプロジェクトは、この問いから始まります。私たちは、ただ美しいだけのデザインや、技術的に高度なだけのプロダクトには価値がないと考えます。
+            </p>
+          </MotionDiv>
+          <div className="grid md:grid-cols-3 gap-12 text-left">
+            {philosophyItems.map((item, index) => (
+              <MotionDiv
+                key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: 'easeOut',
+                }}
+              >
+                <h3 className="text-2xl font-bold text-primary-text mb-4">
+                  {item.title}
+                </h3>
+                <p className="text-secondary-text leading-relaxed">{item.text}</p>
+              </MotionDiv>
+            ))}
+          </div>
+          <div className="text-center mt-16">
+            <Link
+              href="/about"
+              className="text-accent font-semibold hover:text-accent/80 transition-colors inline-flex items-center group text-lg"
+            >
+              私たちの信念について
+              <ArrowRightIcon className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </Container>
       </Section>
 
       {/* Framework Section */}
-      <Section className="py-16 sm:py-24 bg-white/5">
-        <MotionDiv
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-16 px-4"
-        >
-          <h2 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl">
-            The Framework
-          </h2>
-          <p className="mt-4 text-lg text-secondary-text max-w-3xl mx-auto">
-            発見し、形にし、進化させる。私たちのプロセスは、不確実性を具体的な成果に変えるための設計図です。
-          </p>
-        </MotionDiv>
-        <div className="grid md:grid-cols-3 gap-8 text-center px-4">
-          {frameworkSteps.map((step, index) => (
-            <MotionDiv
-              key={step.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: 'easeOut',
-              }}
-              className="p-8"
-            >
-              <h3 className="text-2xl font-semibold text-primary-text mb-3">
-                {step.name}
-              </h3>
-              <p className="text-secondary-text">{step.description}</p>
-            </MotionDiv>
-          ))}
-        </div>
+      <Section className="bg-zinc-50 dark:bg-white/5">
+        <Container>
+          <MotionDiv
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl mb-6">
+              The Framework
+            </h2>
+            <p className="text-lg text-secondary-text max-w-3xl mx-auto leading-relaxed">
+              発見し、形にし、進化させる。私たちのプロセスは、不確実性を具体的な成果に変えるための設計図です。
+            </p>
+          </MotionDiv>
+          <div className="grid md:grid-cols-3 gap-12 text-center">
+            {frameworkSteps.map((step, index) => (
+              <MotionDiv
+                key={step.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: 'easeOut',
+                }}
+                className="p-8 rounded-2xl bg-background border border-neutral-border shadow-sm"
+              >
+                <h3 className="text-2xl font-bold text-primary-text mb-4">
+                  {step.name}
+                </h3>
+                <p className="text-secondary-text leading-relaxed">{step.description}</p>
+              </MotionDiv>
+            ))}
+          </div>
+        </Container>
       </Section>
 
       {/* Closing Section */}
-      <Section className="py-8 sm:py-12 bg-accent overflow-hidden">
+      <Section className="py-12 sm:py-20 bg-accent overflow-hidden">
         <div className="marquee-container">
           <div className="marquee-content">
-            <h2 className="text-4xl font-bold tracking-tighter text-background sm:text-5xl">
+            <h2 className="text-6xl font-bold tracking-tighter text-background sm:text-8xl opacity-90">
               {marqueeText}
             </h2>
-            <h2 className="text-4xl font-bold tracking-tighter text-background sm:text-5xl">
+            <h2 className="text-6xl font-bold tracking-tighter text-background sm:text-8xl opacity-90">
               {marqueeText}
             </h2>
           </div>

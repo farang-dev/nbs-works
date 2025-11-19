@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { client, urlFor } from '@/lib/sanity.client'
+import { client } from '@/sanity/lib/client'
+import { urlFor } from '@/sanity/lib/image'
 import { postBySlugQuery, postsQuery } from '@/lib/sanity.queries'
 import { Post } from '@/lib/types'
 import Container from '@/components/ui/Container'
@@ -11,10 +12,15 @@ type Props = {
   params: { slug: string }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  if (!params.slug) {
+    return {}
+  }
   const post: Post = await client.fetch(postBySlugQuery, { slug: params.slug })
   if (!post) {
-    return {}
+    notFound()
   }
   return {
     title: post.title,
@@ -25,19 +31,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       publishedTime: post.publishedAt,
       url: `/blog/${post.slug}`,
-      images: [
-        {
-          url: urlFor(post.mainImage).width(1200).height(630).fit('crop').url(),
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
+      images: post.mainImage
+        ? [
+          {
+            url: urlFor(post.mainImage).width(1200).height(630).fit('crop').url(),
+            width: 1200,
+            height: 630,
+            alt: post.title,
+          },
+        ]
+        : [],
     },
   }
 }
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function PostPage({ params }: Props) {
+  if (!params.slug) {
+    notFound()
+  }
+  console.log('--- PostPage PARAMS ---', params);
   const post: Post = await client.fetch(postBySlugQuery, { slug: params.slug })
 
   if (!post) {
@@ -65,15 +77,17 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           </header>
 
-          <div className="relative w-full h-64 sm:h-96 mb-12">
-            <Image
-              src={urlFor(post.mainImage).width(1200).height(675).url()}
-              alt={post.title}
-              fill
-              className="object-cover rounded-2xl border border-neutral-border"
-              priority
-            />
-          </div>
+          {post.mainImage && (
+            <div className="relative w-full h-64 sm:h-96 mb-12">
+              <Image
+                src={urlFor(post.mainImage).width(1200).height(675).url()}
+                alt={post.title}
+                fill
+                className="object-cover rounded-2xl border border-neutral-border"
+                priority
+              />
+            </div>
+          )}
 
           <div className="prose max-w-none">
             <PortableText value={post.body} />
@@ -86,7 +100,9 @@ export default async function BlogPostPage({ params }: Props) {
 
 export async function generateStaticParams() {
   const posts: Post[] = await client.fetch(postsQuery)
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+  return posts
+    .filter((post) => post.slug) // Ensure post has a slug
+    .map((post) => ({
+      slug: post.slug,
+    }))
 }
