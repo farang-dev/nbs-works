@@ -264,10 +264,10 @@ export default async function Home() {
       <Section className="py-12 sm:py-20 bg-accent overflow-hidden">
         <div className="marquee-container">
           <div className="marquee-content">
-            <h2 className="text-6xl font-bold tracking-tighter text-background sm:text-8xl opacity-90">
+            <h2 className="text-4xl font-bold tracking-tighter text-background sm:text-5xl">
               {marqueeText}
             </h2>
-            <h2 className="text-6xl font-bold tracking-tighter text-background sm:text-8xl opacity-90">
+            <h2 className="text-4xl font-bold tracking-tighter text-background sm:text-5xl">
               {marqueeText}
             </h2>
           </div>

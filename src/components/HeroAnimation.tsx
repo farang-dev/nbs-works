@@ -2,15 +2,6 @@
 
 import { useEffect, useRef } from 'react'
 
-interface Particle {
-    x: number
-    y: number
-    z: number // Depth factor (0 to 1, where 1 is closest)
-    vx: number
-    vy: number
-    baseSize: number
-}
-
 export default function HeroAnimation() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -22,8 +13,11 @@ export default function HeroAnimation() {
         if (!ctx) return
 
         let animationFrameId: number
-        let particles: Particle[] = []
+        let time = 0
         let mouse = { x: -1000, y: -1000 }
+
+        // Brand color #00C49A -> RGB(0, 196, 154)
+        const brandColor = { r: 0, g: 196, b: 154 }
 
         const resize = () => {
             const parent = canvas.parentElement
@@ -31,101 +25,116 @@ export default function HeroAnimation() {
                 canvas.width = parent.clientWidth
                 canvas.height = parent.clientHeight
             }
-            initParticles()
         }
 
-        const initParticles = () => {
-            particles = []
-            // Density: 1 particle per 9000 pixels
-            const particleCount = Math.min(Math.floor((canvas.width * canvas.height) / 9000), 150)
+        const drawGlitchRect = (x: number, y: number, w: number, h: number, intensity: number) => {
+            // Increase visibility by using higher opacity
+            const opacity = Math.random() * 0.8 + 0.2
 
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    z: Math.random() * 0.5 + 0.5, // 0.5 to 1.0
-                    vx: (Math.random() - 0.5) * 0.3, // Slower, smoother drift
-                    vy: (Math.random() - 0.5) * 0.3,
-                    baseSize: Math.random() * 1.5 + 1, // 1 to 2.5
-                })
+            // RGB Shift - make it wider for visibility
+            const shift = (Math.random() - 0.5) * 30 * intensity
+
+            // 1. Main Brand Color Block
+            ctx.fillStyle = `rgba(${brandColor.r}, ${brandColor.g}, ${brandColor.b}, ${opacity})`
+            ctx.fillRect(x, y, w, h)
+
+            // 2. Color Shift (Cyan/Green offset)
+            if (Math.random() > 0.3) {
+                ctx.fillStyle = `rgba(0, 255, 200, ${opacity * 0.7})`
+                ctx.fillRect(x + shift, y, w, h)
+            }
+
+            // 3. Complementary Shift (Magenta/Red for contrast)
+            if (Math.random() > 0.3) {
+                ctx.fillStyle = `rgba(255, 50, 100, ${opacity * 0.7})`
+                ctx.fillRect(x - shift, y, w, h)
+            }
+
+            // 4. Dark/Black glitch for contrast on light backgrounds
+            if (Math.random() > 0.7) {
+                ctx.fillStyle = `rgba(20, 20, 20, ${opacity})`
+                ctx.fillRect(x + shift * 0.5, y + 2, w, 2)
+            }
+
+            // 5. White flash
+            if (Math.random() > 0.9) {
+                ctx.fillStyle = `rgba(255, 255, 255, 0.9)`
+                ctx.fillRect(x, y, w, h)
             }
         }
 
         const draw = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
+            time += 1
 
-            // Update particles
-            particles.forEach((p) => {
-                // Basic movement
-                p.x += p.vx * p.z // Closer particles move faster (parallax)
-                p.y += p.vy * p.z
+            // 1. Ambient Glitch Effects (Always visible)
+            // Add subtle horizontal scan lines
+            if (Math.random() > 0.7) {
+                const y = Math.random() * canvas.height
+                const w = canvas.width
+                const h = Math.random() * 2 + 1
+                ctx.fillStyle = `rgba(${brandColor.r}, ${brandColor.g}, ${brandColor.b}, 0.15)`
+                ctx.fillRect(0, y, w, h)
+            }
 
-                // Wrap around edges for continuous flow
-                if (p.x < -50) p.x = canvas.width + 50
-                if (p.x > canvas.width + 50) p.x = -50
-                if (p.y < -50) p.y = canvas.height + 50
-                if (p.y > canvas.height + 50) p.y = -50
+            // Random vertical slices
+            if (Math.random() > 0.85) {
+                const x = Math.random() * canvas.width
+                ctx.fillStyle = `rgba(${brandColor.r}, ${brandColor.g}, ${brandColor.b}, 0.2)`
+                ctx.fillRect(x, 0, 1, canvas.height)
+            }
 
-                // Mouse Repulsion
-                const dx = mouse.x - p.x
-                const dy = mouse.y - p.y
-                const distance = Math.sqrt(dx * dx + dy * dy)
-                const repulsionRadius = 250
-
-                if (distance < repulsionRadius) {
-                    const force = (repulsionRadius - distance) / repulsionRadius
-                    const angle = Math.atan2(dy, dx)
-
-                    // Push away
-                    const pushX = Math.cos(angle) * force * 1.5
-                    const pushY = Math.sin(angle) * force * 1.5
-
-                    p.x -= pushX * p.z // Closer particles react more
-                    p.y -= pushY * p.z
+            // Periodic block glitches across the screen
+            const ambientBlocks = 3
+            for (let i = 0; i < ambientBlocks; i++) {
+                if (Math.random() > 0.85) {
+                    const x = Math.random() * canvas.width
+                    const y = Math.random() * canvas.height
+                    const w = Math.random() * 80 + 20
+                    const h = Math.random() * 20 + 3
+                    drawGlitchRect(x, y, w, h, 0.5)
                 }
-            })
+            }
 
-            // Draw connections (lines) first so they are behind dots
-            ctx.lineWidth = 0.5
-            particles.forEach((p1, i) => {
-                // Only connect if z-levels are somewhat similar to avoid messy depth crossings
-                // or just connect all based on 2D distance for the "constellation" look
-                particles.slice(i + 1).forEach((p2) => {
-                    const dx = p1.x - p2.x
-                    const dy = p1.y - p2.y
-                    const distance = Math.sqrt(dx * dx + dy * dy)
-                    const maxDist = 120
+            // 2. Mouse Interaction Glitch (Intense but localized)
+            const glitchRadius = 300
+            const blocks = 15
 
-                    if (distance < maxDist) {
-                        // Opacity based on distance and average depth
-                        const opacity = (1 - distance / maxDist) * 0.15 * ((p1.z + p2.z) / 2)
-                        ctx.beginPath()
-                        ctx.strokeStyle = `rgba(0, 196, 154, ${opacity})` // Brand color lines, very faint
-                        ctx.moveTo(p1.x, p1.y)
-                        ctx.lineTo(p2.x, p2.y)
-                        ctx.stroke()
+            if (mouse.x > -100) {
+                for (let i = 0; i < blocks; i++) {
+                    const angle = Math.random() * Math.PI * 2
+                    const dist = Math.random() * glitchRadius
+                    const x = mouse.x + Math.cos(angle) * dist
+                    const y = mouse.y + Math.sin(angle) * dist
+
+                    // Sharp blocks
+                    const w = Math.random() * 100 + 10
+                    const h = Math.random() * 30 + 2
+
+                    const distToMouse = Math.sqrt(Math.pow(x - mouse.x, 2) + Math.pow(y - mouse.y, 2))
+                    const intensity = Math.max(0, 1 - distToMouse / glitchRadius)
+
+                    // Draw if close enough or random chance
+                    if (intensity > 0.15 || Math.random() > 0.98) {
+                        drawGlitchRect(x - w / 2, y - h / 2, w, h, intensity)
+
+                        // Occasional thin vertical line (Brand color)
+                        if (Math.random() > 0.85) {
+                            ctx.fillStyle = `rgba(${brandColor.r}, ${brandColor.g}, ${brandColor.b}, 0.3)`
+                            ctx.fillRect(x, 0, 1, canvas.height)
+                        }
                     }
-                })
-            })
+                }
+            }
 
-            // Draw Particles
-            particles.forEach((p) => {
-                const size = p.baseSize * p.z
-                const opacity = 0.3 + (p.z * 0.7) // 0.3 to 1.0
-
-                ctx.beginPath()
-                ctx.arc(p.x, p.y, size, 0, Math.PI * 2)
-
-                // Glow effect
-                ctx.shadowBlur = 10 * p.z
-                ctx.shadowColor = '#00C49A'
-
-                ctx.fillStyle = `rgba(0, 196, 154, ${opacity})`
-                ctx.fill()
-
-                // Reset shadow for next operations (performance)
-                ctx.shadowBlur = 0
-            })
+            // 3. Random Screen Glitch (More frequent)
+            if (Math.random() > 0.9) {
+                const x = Math.random() * canvas.width
+                const y = Math.random() * canvas.height
+                const w = Math.random() * 150 + 20
+                const h = Math.random() * 10 + 2
+                drawGlitchRect(x, y, w, h, 0.8)
+            }
 
             animationFrameId = requestAnimationFrame(draw)
         }
@@ -160,7 +169,7 @@ export default function HeroAnimation() {
         <canvas
             ref={canvasRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ opacity: 0.8 }} // Overall subtle blend
+            style={{ opacity: 1.0, mixBlendMode: 'normal' }}
         />
     )
 }

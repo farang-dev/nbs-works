@@ -32,16 +32,16 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
         <div className="mb-16 sm:mb-24 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-primary-text mb-6">
-            未来を動かす、<span className="text-accent">意味ある創造を。</span>
+            未知の領域で、<span className="text-accent">新たな前例を共に。</span>
           </h2>
-          <p className="text-lg sm:text-xl text-secondary-text max-w-2xl mx-auto mb-10">
-            デジタルプレゼンスの変革から、ビジネスの新たな可能性を切り拓きます。
+          <p className="text-lg sm:text-xl text-secondary-text max-w-3xl mx-auto mb-10 leading-relaxed">
+            テクノロジーが加速するこの時代、正解はどこにもありません。だからこそ、私たちはパートナーとしてあなたと共に挑戦します。試行錯誤を重ね、ビジネスに真の変革をもたらす「最初の成功事例」を創り上げましょう。
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-primary-text rounded-full hover:bg-primary-text/90 shadow-lg hover:shadow-xl hover:-translate-y-1"
           >
-            プロジェクトについて相談する
+            Contact Us
           </Link>
         </div>
 
