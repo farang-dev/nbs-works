@@ -1,47 +1,49 @@
+'use client'
+
 import Link from 'next/link'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { MotionDiv } from '@/components/ui/MotionDiv'
-
-const processSteps = [
-  {
-    name: 'Deconstruct (再定義)',
-    description:
-      '定性的・定量的なアプローチを組み合わせ、ビジネスの現状を徹底的に可視化します。ユーザーインタビューやアンケート調査から顧客の深層心理を、データ解析から行動パターンを読み解きます。このプロセスを通じて、単なる「問題点」ではなく、事業成長の最も大きな「機会」がどこに眠っているかを明らかにします。',
-  },
-  {
-    name: 'Build (制作および作業)',
-    description:
-      '発見した機会を具体的な形に変えていきます。カスタマージャーニーマップやサービスブループリントを用いて理想の体験を定義し、IA（情報アーキテクチャ）とUX（ユーザー体験）を設計。その後、プロトタイピングとユーザーテストを高速で繰り返し、UI（ユーザーインターフェース）を洗練させます。見た目の美しさだけでなく、「使いやすさ」と「ビジネス成果」を両立する設計を追求します。',
-  },
-  {
-    name: 'Grow (運用と成長)',
-    description:
-      'リリースはゴールではなく、新たなスタートです。設定したKPIをリアルタイムで計測し、ユーザーの行動データを分析。A/Bテストやコンテンツの最適化を通じて、継続的な改善サイクルを回します。また、クライアントチームが自走できるよう、運用体制の構築やトレーニングも支援。ビジネスが市場と共に成長し続けるための仕組みを築きます。',
-  },
-]
-
-const deliverables = [
-  'UXリサーチ・データ分析レポート',
-  'ペルソナ・カスタマージャーニーマップ',
-  'サービスブループリント',
-  '情報アーキテクチャ（IA）設計',
-  'ワイヤーフレーム・プロトタイプ',
-  'UIデザインシステム',
-  'ブランド・デザインガイドライン',
-  'ウェブサイト・アプリケーション実装',
-]
-
-const keywords = [
-  'User Experience',
-  'Brand Strategy',
-  'Structural Design',
-  'System Delivery',
-]
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function DigitalExperiencePage() {
+  const { t } = useLanguage()
+
+  const processSteps = [
+    {
+      name: t('digitalExperience.process.deconstruct.title'),
+      description: t('digitalExperience.process.deconstruct.description'),
+    },
+    {
+      name: t('digitalExperience.process.build.title'),
+      description: t('digitalExperience.process.build.description'),
+    },
+    {
+      name: t('digitalExperience.process.grow.title'),
+      description: t('digitalExperience.process.grow.description'),
+    },
+  ]
+
+  const deliverables = [
+    t('digitalExperience.deliverables.1'),
+    t('digitalExperience.deliverables.2'),
+    t('digitalExperience.deliverables.3'),
+    t('digitalExperience.deliverables.4'),
+    t('digitalExperience.deliverables.5'),
+    t('digitalExperience.deliverables.6'),
+    t('digitalExperience.deliverables.7'),
+    t('digitalExperience.deliverables.8'),
+  ]
+
+  const keywords = [
+    t('digitalExperience.keywords.1'),
+    t('digitalExperience.keywords.2'),
+    t('digitalExperience.keywords.3'),
+    t('digitalExperience.keywords.4'),
+  ]
+
   return (
     <main>
       {/* Hero Section */}
@@ -54,12 +56,10 @@ export default function DigitalExperiencePage() {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
               <h1 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl">
-                Digital Experience
+                {t('services.digitalExperience.name')}
               </h1>
               <p className="mt-6 text-lg text-secondary-text">
-                ブランドと体験を構造から設計する。
-                <br />
-                それは、単なるウェブサイトではなく、組織が信頼を築くための仕組みづくりです。
+                {t('digitalExperience.hero.subtitle')}
               </p>
             </MotionDiv>
           </div>
@@ -103,7 +103,7 @@ export default function DigitalExperiencePage() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <h2 className="text-3xl font-bold tracking-tight text-primary-text sm:text-4xl mb-12">
-                Key Deliverables (主な納品物)
+                {t('digitalExperience.deliverables.title')}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-left">
                 {deliverables.map((item, index) => (
@@ -136,7 +136,7 @@ export default function DigitalExperiencePage() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <h2 className="text-3xl font-bold tracking-tight text-primary-text mb-8">
-                Keywords
+                {t('digitalExperience.keywords.title')}
               </h2>
               <div className="flex flex-wrap justify-center gap-4">
                 {keywords.map((keyword, index) => (

@@ -1,11 +1,14 @@
+'use client'
+
 import Link from 'next/link'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const navLinks = [
-  { title: 'About', href: '/about' },
-  { title: 'Services', href: '/services' },
-  { title: 'Blog', href: '/blog' },
-  { title: 'Contact', href: '/contact' },
+  { titleKey: 'nav.about', href: '/about' },
+  { titleKey: 'nav.services', href: '/services' },
+  { titleKey: 'nav.blog', href: '/blog' },
+  { titleKey: 'nav.contact', href: '/contact' },
 ]
 
 const socialLinks = [
@@ -27,21 +30,23 @@ const socialLinks = [
 ]
 
 export default function Footer() {
+  const { t } = useLanguage()
+
   return (
     <footer className="border-t border-neutral-border bg-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
         <div className="mb-16 sm:mb-24 text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-primary-text mb-6">
-            未知の領域で、<span className="text-accent">新たな前例を共に。</span>
+            <span className="text-accent">{t('footer.tagline')}</span>
           </h2>
           <p className="text-lg sm:text-xl text-secondary-text max-w-3xl mx-auto mb-10 leading-relaxed">
-            テクノロジーが加速するこの時代、正解はどこにもありません。だからこそ、私たちはパートナーとしてあなたと共に挑戦します。試行錯誤を重ね、ビジネスに真の変革をもたらす「最初の成功事例」を創り上げましょう。
+            {t('footer.description')}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-primary-text rounded-full hover:bg-primary-text/90 shadow-lg hover:shadow-xl hover:-translate-y-1"
           >
-            Contact Us
+            {t('nav.contact')}
           </Link>
         </div>
 
@@ -51,20 +56,20 @@ export default function Footer() {
               Nobius
             </Link>
             <p className="mt-4 text-secondary-text text-sm max-w-xs">
-              未来を動かすシステムをデザインする。データに基づく洞察と世界クラスの美学を融合させ、デジタルの未来を構築します。
+              {t('footer.company.description')}
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-primary-text tracking-wider uppercase mb-4">Sitemap</h3>
+            <h3 className="text-sm font-semibold text-primary-text tracking-wider uppercase mb-4">{t('footer.sitemap')}</h3>
             <ul className="space-y-3">
               {navLinks.map((link) => (
-                <li key={link.title}>
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-secondary-text hover:text-accent transition-colors"
                   >
-                    {link.title}
+                    {t(link.titleKey)}
                   </Link>
                 </li>
               ))}
@@ -72,7 +77,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-primary-text tracking-wider uppercase mb-4">Social</h3>
+            <h3 className="text-sm font-semibold text-primary-text tracking-wider uppercase mb-4">{t('footer.social')}</h3>
             <ul className="space-y-3">
               {socialLinks.map((link) => (
                 <li key={link.name}>
@@ -93,7 +98,7 @@ export default function Footer() {
 
         <div className="mt-16 pt-8 border-t border-neutral-border flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-secondary-text text-sm">
-            &copy; {new Date().getFullYear()} Nobius. All rights reserved.
+            {t('footer.copyright')}
           </p>
           <div className="flex gap-6">
             {/* Add privacy policy etc if needed later */}

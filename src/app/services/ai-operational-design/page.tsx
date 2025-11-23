@@ -1,47 +1,49 @@
+'use client'
+
 import Link from 'next/link'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { MotionDiv } from '@/components/ui/MotionDiv'
-
-const processSteps = [
-  {
-    name: 'Deconstruct (再定義)',
-    description:
-      '現場の担当者へのヒアリングや業務日誌の分析を通じて、既存のワークフローを細胞レベルまで分解します。どこに非効率が存在し、どこにナレッジが属人化しているのかを特定。その上で、どの業務をAIで自動化・支援すれば、最も生産性が向上し、従業員の創造性を解放できるかを見極めます。',
-  },
-  {
-    name: 'Build (制作および作業)',
-    description:
-      'AIと人間が協働する、新しい業務プロセスを設計します。具体的なタスク手順を定めたSOP（標準作業手順書）を作成し、AIツールの選定・導入から、プロンプトエンジニアリング、RAG（Retrieval-Augmented Generation）システムの構築までを実行。人が判断と創造に集中し、AIが反復作業と情報収集を担う、理想的な分業体制を構築します。',
-  },
-  {
-    name: 'Grow (運用と成長)',
-    description:
-      '新しい働き方を組織に根付かせるための、実践的なトレーニングプログラムを提供します。ツールの使い方だけでなく、AIを使いこなすための思考法やカルチャー変革までをサポート。導入後も、利用状況のモニタリングと定期的な改善提案を行い、組織全体が自律的にAIを活用し、進化し続けられる状態を目指します。',
-  },
-]
-
-const deliverables = [
-  '業務プロセスマッピング',
-  'AI導入効果（ROI）試算',
-  'AI-SOP（標準作業手順書）',
-  'カスタムAIチャットボット開発',
-  'RAGシステム構築',
-  'ナレッジマネジメントシステム設計',
-  'プロンプトエンジニアリングガイド',
-  '導入・定着化トレーニング',
-]
-
-const keywords = [
-  'AI Workflow',
-  'SOP Design',
-  'Knowledge Management',
-  'Team Enablement',
-]
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function AiOperationalDesignPage() {
+  const { t } = useLanguage()
+
+  const processSteps = [
+    {
+      name: t('digitalExperience.process.deconstruct.title'),
+      description: t('aiOperationalDesign.process.deconstruct.description'),
+    },
+    {
+      name: t('digitalExperience.process.build.title'),
+      description: t('aiOperationalDesign.process.build.description'),
+    },
+    {
+      name: t('digitalExperience.process.grow.title'),
+      description: t('aiOperationalDesign.process.grow.description'),
+    },
+  ]
+
+  const deliverables = [
+    t('aiOperationalDesign.deliverables.1'),
+    t('aiOperationalDesign.deliverables.2'),
+    t('aiOperationalDesign.deliverables.3'),
+    t('aiOperationalDesign.deliverables.4'),
+    t('aiOperationalDesign.deliverables.5'),
+    t('aiOperationalDesign.deliverables.6'),
+    t('aiOperationalDesign.deliverables.7'),
+    t('aiOperationalDesign.deliverables.8'),
+  ]
+
+  const keywords = [
+    t('aiOperationalDesign.keywords.1'),
+    t('aiOperationalDesign.keywords.2'),
+    t('aiOperationalDesign.keywords.3'),
+    t('aiOperationalDesign.keywords.4'),
+  ]
+
   return (
     <main>
       {/* Hero Section */}
@@ -54,10 +56,10 @@ export default function AiOperationalDesignPage() {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
               <h1 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl">
-                AI Operational Design
+                {t('services.aiOperationalDesign.name')}
               </h1>
               <p className="mt-6 text-lg text-secondary-text">
-                チームが動く仕組みを、AIで再構築する。
+                {t('aiOperationalDesign.hero.subtitle')}
               </p>
             </MotionDiv>
           </div>
@@ -101,7 +103,7 @@ export default function AiOperationalDesignPage() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <h2 className="text-3xl font-bold tracking-tight text-primary-text sm:text-4xl mb-12">
-                Key Deliverables (主な納品物)
+                {t('digitalExperience.deliverables.title')}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-left">
                 {deliverables.map((item, index) => (
@@ -134,7 +136,7 @@ export default function AiOperationalDesignPage() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <h2 className="text-3xl font-bold tracking-tight text-primary-text mb-8">
-                Keywords
+                {t('digitalExperience.keywords.title')}
               </h2>
               <div className="flex flex-wrap justify-center gap-4">
                 {keywords.map((keyword, index) => (
@@ -159,4 +161,3 @@ export default function AiOperationalDesignPage() {
     </main>
   )
 }
-

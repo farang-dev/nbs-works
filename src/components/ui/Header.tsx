@@ -9,38 +9,36 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { clsx } from 'clsx'
-
-const navLinks = [
-  { name: 'About', href: '/about' },
-  { name: 'Blog', href: '/blog' },
-]
-
-const serviceLinks = [
-  {
-    name: 'Digital Experience',
-    href: '/services/digital-experience',
-    description: 'ブランドと体験を構造から設計します。',
-  },
-  {
-    name: 'NextGen Performance',
-    href: '/services/nextgen-performance',
-    description: '生成AI時代の成果を設計します。',
-  },
-  {
-    name: 'AI Operational Design',
-    href: '/services/ai-operational-design',
-    description: 'チームが動く仕組みを再構築します。',
-  },
-  {
-    name: 'Global Expansion',
-    href: '/services/global-expansion',
-    description: '国境を越えるデジタル戦略を設計します。',
-  },
-]
+import { useLanguage } from '@/contexts/LanguageContext'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { t } = useLanguage()
+
+  const serviceLinks = [
+    {
+      name: t('services.digitalExperience.name'),
+      href: '/services/digital-experience',
+      description: t('services.digitalExperience.description'),
+    },
+    {
+      name: t('services.nextgenPerformance.name'),
+      href: '/services/nextgen-performance',
+      description: t('services.nextgenPerformance.description'),
+    },
+    {
+      name: t('services.aiOperationalDesign.name'),
+      href: '/services/ai-operational-design',
+      description: t('services.aiOperationalDesign.description'),
+    },
+    {
+      name: t('services.globalExpansion.name'),
+      href: '/services/global-expansion',
+      description: t('services.globalExpansion.description'),
+    },
+  ]
 
   useEffect(() => {
     function onScroll() {
@@ -88,11 +86,11 @@ export function Header() {
             href="/about"
             className="text-sm font-semibold leading-6 text-secondary-text hover:text-primary-text transition-colors"
           >
-            About
+            {t('nav.about')}
           </Link>
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-secondary-text hover:text-primary-text transition-colors outline-none">
-              Services
+              {t('nav.services')}
               <ChevronDownIcon
                 className="h-5 w-5 flex-none text-gray-400"
                 aria-hidden="true"
@@ -149,15 +147,16 @@ export function Header() {
             href="/blog"
             className="text-sm font-semibold leading-6 text-secondary-text hover:text-primary-text transition-colors"
           >
-            Blog
+            {t('nav.blog')}
           </Link>
+          <LanguageSwitcher />
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
             href="/contact"
             className="rounded-md bg-primary-text text-background px-5 py-2 text-sm font-semibold shadow-sm hover:bg-primary-text/90 transition-all duration-200"
           >
-            Contact us
+            {t('nav.contact')}
           </Link>
         </div>
       </nav>
@@ -193,10 +192,10 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-primary-text hover:bg-neutral-border/50"
                 >
-                  About
+                  {t('nav.about')}
                 </Link>
                 <p className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-primary-text">
-                  Services
+                  {t('nav.services')}
                 </p>
                 <div className="pl-4">
                   {serviceLinks.map((link) => (
@@ -215,8 +214,11 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-primary-text hover:bg-neutral-border/50"
                 >
-                  Blog
+                  {t('nav.blog')}
                 </Link>
+                <div className="-mx-3 px-3 py-2">
+                  <LanguageSwitcher />
+                </div>
               </div>
               <div className="py-6">
                 <Link
@@ -224,7 +226,7 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="-mx-3 block rounded-lg bg-primary-text px-3 py-2.5 text-center text-base font-semibold leading-7 text-background hover:bg-primary-text/90"
                 >
-                  Contact us
+                  {t('nav.contact')}
                 </Link>
               </div>
             </div>
