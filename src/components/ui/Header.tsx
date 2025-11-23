@@ -15,30 +15,36 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
 
-  const serviceLinks = [
+  const allServiceLinks = [
     {
       name: t('services.digitalExperience.name'),
       href: '/services/digital-experience',
       description: t('services.digitalExperience.description'),
-    },
-    {
-      name: t('services.nextgenPerformance.name'),
-      href: '/services/nextgen-performance',
-      description: t('services.nextgenPerformance.description'),
-    },
-    {
-      name: t('services.aiOperationalDesign.name'),
-      href: '/services/ai-operational-design',
-      description: t('services.aiOperationalDesign.description'),
+      order: { ja: 1, en: 1 },
     },
     {
       name: t('services.globalExpansion.name'),
       href: '/services/global-expansion',
       description: t('services.globalExpansion.description'),
+      order: { ja: 4, en: 2 },
+    },
+    {
+      name: t('services.nextgenPerformance.name'),
+      href: '/services/nextgen-performance',
+      description: t('services.nextgenPerformance.description'),
+      order: { ja: 2, en: 3 },
+    },
+    {
+      name: t('services.aiOperationalDesign.name'),
+      href: '/services/ai-operational-design',
+      description: t('services.aiOperationalDesign.description'),
+      order: { ja: 3, en: 4 },
     },
   ]
+
+  const serviceLinks = [...allServiceLinks].sort((a, b) => a.order[language] - b.order[language])
 
   useEffect(() => {
     function onScroll() {

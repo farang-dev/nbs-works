@@ -15,34 +15,40 @@ import { MotionDiv } from '@/components/ui/MotionDiv'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function ServicesPage() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
 
-  const services = [
+  const allServices = [
     {
       name: t('services.digitalExperience.name'),
       description: t('home.services.digitalExperience.description'),
       href: '/services/digital-experience',
       icon: RocketLaunchIcon,
-    },
-    {
-      name: t('services.nextgenPerformance.name'),
-      description: t('home.services.nextgenPerformance.description'),
-      href: '/services/nextgen-performance',
-      icon: CodeBracketIcon,
-    },
-    {
-      name: t('services.aiOperationalDesign.name'),
-      description: t('home.services.aiOperationalDesign.description'),
-      href: '/services/ai-operational-design',
-      icon: CpuChipIcon,
+      order: { ja: 1, en: 1 },
     },
     {
       name: t('services.globalExpansion.name'),
       description: t('home.services.globalExpansion.description'),
       href: '/services/global-expansion',
       icon: GlobeAltIcon,
+      order: { ja: 4, en: 2 },
+    },
+    {
+      name: t('services.nextgenPerformance.name'),
+      description: t('home.services.nextgenPerformance.description'),
+      href: '/services/nextgen-performance',
+      icon: CodeBracketIcon,
+      order: { ja: 2, en: 3 },
+    },
+    {
+      name: t('services.aiOperationalDesign.name'),
+      description: t('home.services.aiOperationalDesign.description'),
+      href: '/services/ai-operational-design',
+      icon: CpuChipIcon,
+      order: { ja: 3, en: 4 },
     },
   ]
+
+  const services = [...allServices].sort((a, b) => a.order[language] - b.order[language])
 
   const frameworkSteps = [
     {

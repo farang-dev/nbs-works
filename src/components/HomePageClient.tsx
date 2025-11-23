@@ -18,29 +18,17 @@ import { useLanguage } from '@/contexts/LanguageContext'
 const marqueeText = 'Usefulness is Everything   '.repeat(10)
 
 export default function HomePageClient() {
-    const { t } = useLanguage()
+    const { t, language } = useLanguage()
 
-    const services = [
+    // Define all services
+    const allServices = [
         {
             name: t('services.digitalExperience.name'),
             description: t('home.services.digitalExperience.description'),
             href: '/services/digital-experience',
             icon: RocketLaunchIcon,
             tags: t('home.services.digitalExperience.tags').split(', '),
-        },
-        {
-            name: t('services.nextgenPerformance.name'),
-            description: t('home.services.nextgenPerformance.description'),
-            href: '/services/nextgen-performance',
-            icon: CodeBracketIcon,
-            tags: t('home.services.nextgenPerformance.tags').split(', '),
-        },
-        {
-            name: t('services.aiOperationalDesign.name'),
-            description: t('home.services.aiOperationalDesign.description'),
-            href: '/services/ai-operational-design',
-            icon: CpuChipIcon,
-            tags: t('home.services.aiOperationalDesign.tags').split(', '),
+            order: { ja: 1, en: 1 }, // Always first
         },
         {
             name: t('services.globalExpansion.name'),
@@ -48,8 +36,28 @@ export default function HomePageClient() {
             href: '/services/global-expansion',
             icon: GlobeAltIcon,
             tags: t('home.services.globalExpansion.tags').split(', '),
+            order: { ja: 4, en: 2 }, // Fourth in Japanese, Second in English
+        },
+        {
+            name: t('services.nextgenPerformance.name'),
+            description: t('home.services.nextgenPerformance.description'),
+            href: '/services/nextgen-performance',
+            icon: CodeBracketIcon,
+            tags: t('home.services.nextgenPerformance.tags').split(', '),
+            order: { ja: 2, en: 3 }, // Second in Japanese, Third in English
+        },
+        {
+            name: t('services.aiOperationalDesign.name'),
+            description: t('home.services.aiOperationalDesign.description'),
+            href: '/services/ai-operational-design',
+            icon: CpuChipIcon,
+            tags: t('home.services.aiOperationalDesign.tags').split(', '),
+            order: { ja: 3, en: 4 }, // Third in Japanese, Fourth in English
         },
     ]
+
+    // Sort services based on current language
+    const services = [...allServices].sort((a, b) => a.order[language] - b.order[language])
 
     const philosophyItems = [
         {
