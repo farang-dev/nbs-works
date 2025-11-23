@@ -155,4 +155,16 @@ export const ja = {
     'globalExpansion.keywords.2': 'Localization',
     'globalExpansion.keywords.3': 'Cross-border Commerce',
     'globalExpansion.keywords.4': 'Global Strategy',
+
+    // Contact Page
+    'contact.hero.title': 'Let\'s start with a clear view.',
+    'contact.hero.subtitle': 'まずは、課題を正確に捉えることから始めましょう。',
+    'contact.intro': 'どのようなご相談でも構いません。まずは現状の課題と目標についてお聞かせください。Nobiusでは、常に現状を正しく理解することから始めます。',
+    'contact.form.companyName': '会社名',
+    'contact.form.contactPerson': '担当者名',
+    'contact.form.email': '連絡先（メールアドレス）',
+    'contact.form.interestAreas': '興味のある領域（複数選択可）',
+    'contact.form.summary': '課題の要約',
+    'contact.form.startDate': '希望開始時期',
+    'contact.form.submit': '送信する',
 }

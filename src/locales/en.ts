@@ -156,4 +156,16 @@ export const en = {
     'globalExpansion.keywords.2': 'Cultural Strategy',
     'globalExpansion.keywords.3': 'Japanese UX Design',
     'globalExpansion.keywords.4': 'Japan GTM',
+
+    // Contact Page
+    'contact.hero.title': 'Let\'s start with a clear view.',
+    'contact.hero.subtitle': 'Let\'s begin by accurately understanding your challenges.',
+    'contact.intro': 'No matter what your inquiry is, we\'d love to hear about your current challenges and goals. At Nobius, we always start by properly understanding the current situation.',
+    'contact.form.companyName': 'Company Name',
+    'contact.form.contactPerson': 'Contact Person',
+    'contact.form.email': 'Email Address',
+    'contact.form.interestAreas': 'Areas of Interest (Multiple selections allowed)',
+    'contact.form.summary': 'Challenge Summary',
+    'contact.form.startDate': 'Desired Start Date',
+    'contact.form.submit': 'Submit',
 }

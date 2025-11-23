@@ -3,14 +3,34 @@
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { MotionDiv } from '@/components/ui/MotionDiv'
-
-const interestAreas = [
-  'Digital Experience',
-  'NextGen Performance',
-  'AI Operational Design',
-]
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function ContactPage() {
+  const { t, language } = useLanguage()
+
+  // Define all services with ordering
+  const allInterestAreas = [
+    {
+      name: t('services.digitalExperience.name'),
+      order: { ja: 1, en: 1 },
+    },
+    {
+      name: t('services.globalExpansion.name'),
+      order: { ja: 4, en: 2 },
+    },
+    {
+      name: t('services.nextgenPerformance.name'),
+      order: { ja: 2, en: 3 },
+    },
+    {
+      name: t('services.aiOperationalDesign.name'),
+      order: { ja: 3, en: 4 },
+    },
+  ]
+
+  // Sort based on current language
+  const interestAreas = [...allInterestAreas].sort((a, b) => a.order[language] - b.order[language])
+
   return (
     <main>
       {/* Hero Section */}
@@ -23,10 +43,10 @@ export default function ContactPage() {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
               <h1 className="text-4xl font-bold tracking-tighter text-primary-text sm:text-5xl">
-                Let’s start with a clear view.
+                {t('contact.hero.title')}
               </h1>
               <p className="mt-4 text-lg text-secondary-text">
-                まずは、課題を正確に捉えることから始めましょう。
+                {t('contact.hero.subtitle')}
               </p>
             </MotionDiv>
           </div>
@@ -45,9 +65,7 @@ export default function ContactPage() {
             >
               <div className="text-center mb-12">
                 <p className="text-secondary-text text-lg">
-                  どのようなご相談でも構いません。まずは現状の課題と目標についてお聞かせください。
-                  <br />
-                  Nobiusでは、常に現状を正しく理解することから始めます。
+                  {t('contact.intro')}
                 </p>
               </div>
 
@@ -58,7 +76,7 @@ export default function ContactPage() {
                       htmlFor="company-name"
                       className="block text-sm font-medium leading-6 text-primary-text"
                     >
-                      会社名
+                      {t('contact.form.companyName')}
                     </label>
                     <div className="mt-2">
                       <input
@@ -74,7 +92,7 @@ export default function ContactPage() {
                       htmlFor="contact-person"
                       className="block text-sm font-medium leading-6 text-primary-text"
                     >
-                      担当者名
+                      {t('contact.form.contactPerson')}
                     </label>
                     <div className="mt-2">
                       <input
@@ -92,7 +110,7 @@ export default function ContactPage() {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-primary-text"
                   >
-                    連絡先（メールアドレス）
+                    {t('contact.form.email')}
                   </label>
                   <div className="mt-2">
                     <input
@@ -109,22 +127,22 @@ export default function ContactPage() {
                     htmlFor="interest"
                     className="block text-sm font-medium leading-6 text-primary-text"
                   >
-                    興味のある領域（複数選択可）
+                    {t('contact.form.interestAreas')}
                   </label>
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {interestAreas.map((area) => (
-                      <div key={area} className="flex items-center">
+                      <div key={area.name} className="flex items-center">
                         <input
-                          id={`interest-${area}`}
+                          id={`interest-${area.name}`}
                           name="interest"
                           type="checkbox"
                           className="h-4 w-4 rounded border-neutral-border text-accent focus:ring-accent"
                         />
                         <label
-                          htmlFor={`interest-${area}`}
+                          htmlFor={`interest-${area.name}`}
                           className="ml-3 block text-sm text-secondary-text"
                         >
-                          {area}
+                          {area.name}
                         </label>
                       </div>
                     ))}
@@ -135,7 +153,7 @@ export default function ContactPage() {
                     htmlFor="summary"
                     className="block text-sm font-medium leading-6 text-primary-text"
                   >
-                    課題の要約
+                    {t('contact.form.summary')}
                   </label>
                   <div className="mt-2">
                     <textarea
@@ -151,7 +169,7 @@ export default function ContactPage() {
                     htmlFor="start-date"
                     className="block text-sm font-medium leading-6 text-primary-text"
                   >
-                    希望開始時期
+                    {t('contact.form.startDate')}
                   </label>
                   <div className="mt-2">
                     <input
@@ -167,7 +185,7 @@ export default function ContactPage() {
                     type="submit"
                     className="w-full bg-accent text-white px-8 py-3 rounded-md font-semibold text-lg hover:bg-accent/90 transition-all duration-300 shadow-lg"
                   >
-                    送信する
+                    {t('contact.form.submit')}
                   </button>
                 </div>
               </form>
